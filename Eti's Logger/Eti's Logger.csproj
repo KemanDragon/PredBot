@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>EtiLogger</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\Eti's Logger\Eti's Logger.xml</DocumentationFile>
+    <OutputPath>D:\Bot Stuff\Build\OriBot\</OutputPath>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EtiBotCore", "EtiBotCore\EtiBotCore.csproj", "{973CD2B2-BC03-4997-9D39-ADFBA566F56A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eti's Logger", "Eti's Logger\Eti's Logger.csproj", "{B53D6DEC-5909-44DA-A430-E5A54BF14088}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DDEB939F-02B2-44A1-8704-C1BD89620497}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		ffmpeg.exe = ffmpeg.exe
+		..\..\Desktop\Audio\Datachron\ws_npc_datachron_chat.wav = ..\..\Desktop\Audio\Datachron\ws_npc_datachron_chat.wav
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OriBotV3", "OriBotV3\OriBotV3.csproj", "{B4E531D5-8686-4EB1-9CB9-A6BEAC98B30D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaltyPiss", "SaltyPiss\SaltyPiss.csproj", "{7B34A97B-5069-487C-82EC-126FC0F16B80}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalCore", "Signal\SignalCore.csproj", "{9CEEBB73-0AE5-4B1B-9397-144E22B214F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{973CD2B2-BC03-4997-9D39-ADFBA566F56A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{973CD2B2-BC03-4997-9D39-ADFBA566F56A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{973CD2B2-BC03-4997-9D39-ADFBA566F56A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{973CD2B2-BC03-4997-9D39-ADFBA566F56A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B53D6DEC-5909-44DA-A430-E5A54BF14088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B53D6DEC-5909-44DA-A430-E5A54BF14088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B53D6DEC-5909-44DA-A430-E5A54BF14088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B53D6DEC-5909-44DA-A430-E5A54BF14088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E531D5-8686-4EB1-9CB9-A6BEAC98B30D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E531D5-8686-4EB1-9CB9-A6BEAC98B30D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E531D5-8686-4EB1-9CB9-A6BEAC98B30D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E531D5-8686-4EB1-9CB9-A6BEAC98B30D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B34A97B-5069-487C-82EC-126FC0F16B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B34A97B-5069-487C-82EC-126FC0F16B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B34A97B-5069-487C-82EC-126FC0F16B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B34A97B-5069-487C-82EC-126FC0F16B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CEEBB73-0AE5-4B1B-9397-144E22B214F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CEEBB73-0AE5-4B1B-9397-144E22B214F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CEEBB73-0AE5-4B1B-9397-144E22B214F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CEEBB73-0AE5-4B1B-9397-144E22B214F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B487242A-DFC6-49F0-8E66-A6518B737DEF}
+	EndGlobalSection
+EndGlobal
