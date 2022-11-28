@@ -333,8 +333,11 @@ namespace OriBotV3.CoreImplementation {
 			if (user.IsABot || user.IsSelf) return;
 			Member member = await user.InServerAsync(Server);
 			Role mainRole = GetMemberMainRole(member);
-			if (emoji.ID == 671886904773443584 || emoji.Name == "ori") {
-				ContextLogger.WriteLine($"Received event of Ori reaction being added from [{user.ID}] ({user.FullName}).");
+
+			// Region Roles
+			// EU
+			if (emoji.ID == 1046523890672865370 || emoji.Name == "Narbash_Laughing") {
+				ContextLogger.WriteLine($"Received event of Narbash reaction being added from [{user.ID}] ({user.FullName}).");
 				/*
 				if (member.Roles.Contains(MuteSystem.Muted)) {
 					ContextLogger.WriteLine("...But this person has the muted role, so it has been dropped.");
@@ -350,22 +353,80 @@ namespace OriBotV3.CoreImplementation {
 					return;
 				}
 
-				// ori
-				if (!member.Roles.Contains(SpiritsRole.Role)) {
+				if (!member.Roles.Contains(EURole.Role)) {
 					member.BeginChanges(true);
-					member.Roles.Add(SpiritsRole.Role);
-					var response = await member.ApplyChanges("Clicked on Ori, granted Spirits role.");
+					member.Roles.Add(EURole.Role);
+					var response = await member.ApplyChanges("Clicked on Narbash, granted EU role.");
 					if (response.IsSuccessStatusCode) {
 						ContextLogger.WriteLine("...and gave them the role!");
 					} else {
-						ContextLogger.WriteWarning($"Failed to give spirits role to [{user.ID}] ({user.FullName})! [HTTP {(int)response.StatusCode}] {response.StatusCode} {response.RequestMessage}");
+						ContextLogger.WriteWarning($"Failed to give EU role to [{user.ID}] ({user.FullName})! [HTTP {(int)response.StatusCode}] {response.StatusCode} {response.RequestMessage}");
 					}
 				} else {
-					ContextLogger.WriteLine("...But this person already has the spirit role, so it has been dropped.");
+					ContextLogger.WriteLine("...But this person already has the EU role, so it has been dropped.");
 				}
-			} else if (emoji.ID == 685306067957055549 || emoji.Name == "Windows") {
+
+				// NA-E
+			} else if (emoji.ID == 1046523890672865370 || emoji.Name == "Murdock_Nice_Well_Done") {
+				ContextLogger.WriteLine($"Received event of Murdock reaction being added from [{user.ID}] ({user.FullName}).");
+				if (MuteSystem.IsMuted(member)) {
+					ContextLogger.WriteLine("...But this person is muted (either by role or by registry), so it has been dropped.");
+					return;
+				}
+
+				if (!member.Roles.Contains(NAERole.Role)) {
+					member.BeginChanges(true);
+					member.Roles.Add(NAERole.Role);
+					var response = await member.ApplyChanges("Clicked on Murdock, granted NA-E role.");
+					if (response.IsSuccessStatusCode) {
+						ContextLogger.WriteLine("...and gave them the role!");
+					} else {
+						ContextLogger.WriteLine("...but this person already has the NA-E role, so it has been dropped.");
+					}
+				}
+
+				// NA-W
+			} else if (emoji.ID == 1046523890672865370 || emoji.Name == "Howitzer_Success") {
+				ContextLogger.WriteLine($"Received event of Howitzer reaction being added from [{user.ID}] ({user.FullName}).");
+				if (MuteSystem.IsMuted(member)) {
+					ContextLogger.WriteLine("...but this person is muted (either by role or by registry), so it has been dropped.");
+					return;
+				}
+
+				if (!member.Roles.Contains(NAWRole.Role)) {
+					member.BeginChanges(true);
+					member.Roles.Add(NAWRole.Role);
+					var response = await member.ApplyChanges("Clicked on Howitzer, granted NA-W role.");
+					if (response.IsSuccessStatusCode) {
+						ContextLogger.WriteLine("...and gave them the role!");
+					} else {
+						ContextLogger.WriteLine("...but this person already has the NA-W role, so it has been dropped.");
+					}
+				}
+
+			// Asia
+			} else if (emoji.ID == 1046523890672865370 || emoji.Name == "Shinbi_Peace") {
+				ContextLogger.WriteLine($"Received event of Shinbi reaction being added from [{user.ID}] ({user.FullName}).");
+				if (MuteSystem.IsMuted(member)) {
+					ContextLogger.WriteLine("...but this person is muted (either by role or registry), so it has been dropped.");
+					return;
+                }
+
+				if (!member.Roles.Contains(ASRole.Role)) {
+					member.BeginChanges(true);
+					member.Roles.Add(ASRole.Role);
+					var response = await member.ApplyChanges("Clicked on Shinbi, granted Asia role.");
+					if (response.IsSuccessStatusCode) {
+						ContextLogger.WriteLine("...and gave them the role!");
+                    } else {
+						ContextLogger.WriteLine("...but this person already has the Asia role, so it has been dropped.");
+                    }
+                }
+
+			// Platform Roles
+			// Windows
+			} else if (emoji.Name == "Windows") {
 				if (member.Roles.Contains(MuteSystem.Muted)) return;
-				// veendoze
 				Role target = null;
 				if (mainRole != null) {
 					if (!member.Roles.Contains(PCRole.Role) && mainRole != PCMainRole.Role) {
@@ -381,9 +442,10 @@ namespace OriBotV3.CoreImplementation {
 					member.Roles.Add(target);
 					await member.ApplyChanges("Clicked on Windows logo, granted applicable PC role.");
 				}
-			} else if (emoji.ID == 685306067932151841 || emoji.Name == "Xbox") {
+
+			// Xbox
+			} else if (emoji.Name == "Xbox") {
 				if (member.Roles.Contains(MuteSystem.Muted)) return;
-				// echsbacks
 				Role target = null;
 				if (mainRole != null) {
 					if (!member.Roles.Contains(XBRole.Role) && mainRole != XBMainRole.Role) {
@@ -399,9 +461,10 @@ namespace OriBotV3.CoreImplementation {
 					member.Roles.Add(target);
 					await member.ApplyChanges("Clicked on Xbox logo, granted applicable Xbox role.");
 				}
-			} else if (emoji.Name == "🔴") {
+
+			// PlayStation
+			} else if (emoji.Name == "PlayStation") {
 				if (member.Roles.Contains(MuteSystem.Muted)) return;
-				// red dot for switch
 				Role target = null;
 				if (mainRole != null) {
 					if (!member.Roles.Contains(PSRole.Role) && mainRole != PSMainRole.Role) {
@@ -429,11 +492,6 @@ namespace OriBotV3.CoreImplementation {
 			if (user.IsABot || user.IsSelf) return;
 			Member member = await user.InServerAsync(Server);
 			Role mainRole = GetMemberMainRole(member);
-
-			if (emoji.ID == 1046523890672865370 || emoji.Name == "Narbash_Laughing")
-            {
-				if (member.Roles.Contains(MuteSystem.Muted)) return;
-            }
 
 			/*
 			if (emoji.ID == 685306067957055549 || emoji.Name == "Windows") {
