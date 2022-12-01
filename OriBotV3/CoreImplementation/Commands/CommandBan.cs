@@ -35,8 +35,8 @@ namespace OriBotV3.CoreImplementation.Commands {
 			if (string.IsNullOrWhiteSpace(args.Arg2)) throw new CommandException(this, "Please provide an actual reason for this ban, not blank text.");
 			if (args.Arg3 > 7) throw new CommandException(this, new ArgumentOutOfRangeException(Syntax.GetArgName(2) + " cannot be greater than 7 or less than 0!"));
 
-			if (executionContext is BotContextOriTheGame ctxOri) {
-				ctxOri.IgnoreBannedIDs.Add(args.Arg1.Member.ID);
+			if (executionContext is BotContextPredecessor ctxPred) {
+				ctxPred.IgnoreBannedIDs.Add(args.Arg1.Member.ID);
 			}
 			await args.Arg1.Member.BanAsync(args.Arg2);
 			InfractionLogProvider logProvider = InfractionLogProvider.GetProvider(executionContext);

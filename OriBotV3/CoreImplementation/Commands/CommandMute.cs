@@ -27,7 +27,7 @@ namespace OriBotV3.CoreImplementation.Commands {
 		public override string Name { get; } = "mute";
 		public override string Description { get; } = "Controls the muted state of a given user. :warning: Note that this variant is obsolete! `>> mute add` should be used in favor of this alone.";
 		public override ArgumentMapProvider Syntax { get; }// = new ArgumentMapProvider<Person, Duration, string>("user", "length", "reason").SetRequiredState(true, true, true);
-		public override PermissionLevel RequiredPermissionLevel { get; } = PermissionLevel.Operator;
+		public override PermissionLevel RequiredPermissionLevel { get; } = PermissionLevel.ChatHelper;
 		public override bool RequiresContext { get; } = true;
 		public override bool IsExclusiveBase { get; } = true;
 		public override Command[] Subcommands { get; }

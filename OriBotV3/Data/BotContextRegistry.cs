@@ -28,10 +28,12 @@ namespace OriBotV3.Data {
 		public static void InitializeBotContexts() {
 			Logger.Default.WriteLine("Initialized all BotContexts...");
 			ContextRegistry = new Dictionary<Snowflake, BotContext> {
-				//[763476814814511175] = new BotContextTestServer()
-				[577548441878790146] = new BotContextOriTheGame()
-			};
+				//[1034573210278166548] = new BotContextTestServer()
+				//[577548441878790146] = new BotContextOriTheGame()
+				[389767672151146498] = new BotContextPredecessor()
 
+			};
+			
 			DiscordClient.Current.Events.GuildEvents.OnGuildCreated += OnGuildCreated;
 		}
 

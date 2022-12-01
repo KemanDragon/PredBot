@@ -7638,6 +7638,12 @@
             <strong>Format:</strong> Competing in {name}
             </summary>
         </member>
+        <member name="F:EtiBotCore.Payloads.Data.ActivityType.Aiming">
+            <summary>
+            Activity type for using.<para/>
+            <strong>Format:</strong> Using {name}
+            </summary>
+        </member>
         <member name="T:EtiBotCore.Payloads.Data.AuditLogActionType">
             <summary>
             A type of action that the audit log records.

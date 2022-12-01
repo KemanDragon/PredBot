@@ -214,7 +214,7 @@ namespace OriBotV3.Data.Commands {
 			}
 			bool isCmd = IsCommand(text);
 
-			BotContext target = BotContextRegistry.GetContext(577548441878790146); // A bit of a stupid trick but this will work for now.
+			BotContext target = BotContextRegistry.GetContext(389767672151146498); // A bit of a stupid trick but this will work for now.
 
 			if (isCmd) {
 				if (MembersExecutingCommands.ContainsKey(author.ID) && MembersExecutingCommands[author.ID] == true) {

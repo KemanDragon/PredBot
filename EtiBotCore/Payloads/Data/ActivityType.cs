@@ -47,5 +47,11 @@ namespace EtiBotCore.Payloads.Data {
 		/// </summary>
 		Competing = 5,
 
+		/// <summary>
+		/// Activity type for using.<para/>
+		/// <strong>Format:</strong> Using {name}
+		/// </summary>
+		Aiming = 6, 
+
 	}
 }

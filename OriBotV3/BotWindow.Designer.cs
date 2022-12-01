@@ -181,6 +181,7 @@ namespace OriBotV3 {
             this.Name = "BotWindow";
             this.ShowIcon = false;
             this.Text = "Ori Bot Interface";
+            this.Load += new System.EventHandler(this.BotWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

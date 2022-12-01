@@ -247,12 +247,12 @@ namespace OriBotV3.Data.Commands.Default {
 			public CommandGetAvailableMods(BotContext ctx, Command parent) : base(ctx, parent) { }
 
 			public override async Task ExecuteCommandAsync(Member executor, BotContext executionContext, Message originalMessage, string[] argArray, string rawArgs, bool isConsole) {
-				BotContextOriTheGame ctxOri = BotContextRegistry.GetContext<BotContextOriTheGame>();
-				if (executionContext != ctxOri) {
-					throw new CommandException(this, "Cannot use this command in any context other than instance of BotContextOriTheGame");
+				BotContextPredecessor ctxPred = BotContextRegistry.GetContext<BotContextPredecessor>();
+				if (executionContext != ctxPred) {
+					throw new CommandException(this, "Cannot use this command in any context other than instance of BotContextPredecessor");
 				}
 
-				HandlerRandomModSelector selector = ctxOri.GetPassiveHandlerInstance<HandlerRandomModSelector>();
+				HandlerRandomModSelector selector = ctxPred.GetPassiveHandlerInstance<HandlerRandomModSelector>();
 				EmbedBuilder builder = new EmbedBuilder {
 					Title = "Available Mods"
 				};

@@ -36,6 +36,11 @@ namespace OriBotV3.PermissionData {
 		TrustedUser = 31,
 
 		/// <summary>
+		/// This user is a chat helper with elevated perms, but not quite moderator level
+		/// </summary>
+		ChatHelper = 60,
+
+		/// <summary>
 		/// This user is trusted with general administrative things.
 		/// </summary>
 		Operator = 63,

@@ -64,7 +64,7 @@ namespace OriBotV3.Utility {
 			Logger.Default.WriteLine("Made a new MemberMuteUtility " + ctx.ID, LogLevel.Trace);
 			Context = ctx;
 			IEnumerable<Role> r = Context.Server.Roles;
-			Muted = r.First(role => role.Name == "Silenced"); // Yes, this will throw. I want that.
+			Muted = r.First(role => role.ID == 777319312163340288); // Yes, this will throw. I want that.
 			Cache[ctx.ID] = this;
 			Storage = DataPersistence.GetPersistence(ctx, "muteinfo.cfg");
 

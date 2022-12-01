@@ -82,7 +82,7 @@ namespace OriBotV3.CoreImplementation.Commands {
 			if (Context is BotContextTestServer) {
 				musicChannel = Context.Server.GetChannel<VoiceChannel>(794170577413472276);
 				textChannel = Context.Server.GetChannel<TextChannel>(797601510812287027);
-			} else if (Context is BotContextOriTheGame) {
+			} else if (Context is BotContextPredecessor) {
 				musicChannel = Context.Server.GetChannel<VoiceChannel>(624819632649273384);
 				textChannel = Context.Server.GetChannel<TextChannel>(625489171095748629);
 			}

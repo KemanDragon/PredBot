@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace OriBotV3.Data.Commands.Default {
 	public class CommandTicket : Command {
-		public const ulong MOD_THREAD_CTR_ID = 872548812525297695;
+		public const ulong MOD_THREAD_CTR_ID = 1047604994104369213;
 
 		public override string Name { get; } = "ticket";
 		public override string Description { get; } = "Create a new help ticket";
@@ -40,11 +40,12 @@ namespace OriBotV3.Data.Commands.Default {
 		}
 
 		public override async Task ExecuteCommandAsync(Member executor, BotContext _, Message originalMessage, string[] argArray, string rawArgs, bool isConsole) {
-			BotContextOriTheGame executionContext = BotContextRegistry.GetContext<BotContextOriTheGame>();
+			BotContextPredecessor executionContext = BotContextRegistry.GetContext<BotContextPredecessor>();
+			/*
 			if (!executor.Roles.Contains(622258633303916564)) {
 				await ResponseUtil.RespondToAsync(originalMessage, CommandLogger, "You need to be a member before you can send in tickets. If you are sending a ticket because you can't become a member, just message <@114163433980559366> directly and let him know that you can't get access to the server!");
 				return;
-			}
+			}*/
 
 			Thread existing = GetExistingThread(executor);
 			if (existing != null) {
@@ -58,7 +59,7 @@ namespace OriBotV3.Data.Commands.Default {
 			await existing.TryJoinAsync();
 			await existing.SendMessageAsync("Let us know what's up, " + executor.Mention);
 			await existing.TryAddMemberToThread(executor);
-			await modThreadContainer.SendMessageAsync("<@&603306540438388756> A new ticket has been created: " + existing.Mention);
+			await modThreadContainer.SendMessageAsync("<@&420233409789689876> A new ticket has been created: " + existing.Mention);
 			// await modThreadContainer.SendMessageAsync("<@114163433980559366> A new ticket has been created: " + existing.Mention);
 
 			msg.BeginChanges(true);

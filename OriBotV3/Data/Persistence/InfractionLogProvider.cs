@@ -534,7 +534,7 @@ namespace OriBotV3.Data.Persistence {
 
 			private int GetLongestModUsernameLength() {
 				BotContext context = Creator.Context;
-				Role modRole = context.Server.GetRole(603306540438388756);
+				Role modRole = context.Server.GetRole(420233409789689876);
 				Member[] mods = context.Server.FindMembersWithRole(modRole);
 				int longest = 0;
 				foreach (Member mod in mods) {

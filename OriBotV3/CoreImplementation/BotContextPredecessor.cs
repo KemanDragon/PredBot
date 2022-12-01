@@ -33,7 +33,7 @@ namespace OriBotV3.CoreImplementation {
 		protected override Snowflake MessageBehaviorLogID { get; } = 943959223421763604;
 		protected override Snowflake VoiceBehaviorLogID { get; } = 943959205398872094;
 		protected override Snowflake ModerationLogID { get; } = 943958948917149758;
-		public override Snowflake? BotChannelID { get; } = 1046508212079300628;
+		public override Snowflake? BotChannelID { get; } = 1046508137533935746;
 		public override bool OnlyAllowCommandsInBotChannel { get; } = true;
 		public override Command[] Commands { get; set; } = new Command[0];
 		public override PassiveHandler[] Handlers { get; set; } = new PassiveHandler[0];
@@ -84,7 +84,7 @@ namespace OriBotV3.CoreImplementation {
 			DiscordClient.Current!.DeferNonGuildCreateEvents = true;
 		}
 		
-		public ManagedRole SpiritsRole;
+		// public ManagedRole SpiritsRole;
 		public ManagedRole PCMainRole;
 		public ManagedRole XBMainRole;
 		public ManagedRole PSMainRole;
@@ -95,7 +95,7 @@ namespace OriBotV3.CoreImplementation {
 		public ManagedRole NAERole;
 		public ManagedRole NAWRole;
 		public ManagedRole ASRole;
-		public ManagedRole ImagesRole;
+		// public ManagedRole ImagesRole;
 		public MemberMuteUtility MuteSystem;
 
 		public override async Task AfterContextInitialization() {
@@ -123,12 +123,12 @@ namespace OriBotV3.CoreImplementation {
 				// new CommandGiveMe(this),
 				// new CommandColorMe(this),
 				// new CommandWhoMade(this),
-				profileCmd,
-				miniProfile,
+				// profileCmd,
+				// miniProfile,
 				// new CommandGreg(this),
 				// new CommandMusic(this),
 				// new CommandNowPlaying(this),
-				// new CommandBadge(this),
+				new CommandBadge(this),
 				// new CommandAllowMassPing(this),
 				new CommandPurge(this),
 				new CommandLog(this),
@@ -146,11 +146,11 @@ namespace OriBotV3.CoreImplementation {
 				new HandlerAntiCopypasta(this),
 				
 				// Below: has no interceptions
-				// new HandlerModLogAssistant(this),
-				// new HandlerUnavailableModHelper(this),
-				new HandlerGrantImageRole(this),
+				new HandlerModLogAssistant(this),
+				new HandlerUnavailableModHelper(this),
+				// new HandlerGrantImageRole(this),
 				new HandlerProfileExperienceReward(this),
-				new HandlerArtPinSystem(Server, this), // this DOES intercept
+				// new HandlerArtPinSystem(Server, this), // this DOES intercept
 				new HandlerSteamSystem(this),
 				// new HandlerPassiveResponseSystem(this),
 				new HandlerSecurityFilter(this),
@@ -211,13 +211,13 @@ namespace OriBotV3.CoreImplementation {
 			*/
 			DataPersistence.RegisterDomains(this);
 			// SpiritsRole = new ManagedRole(Server, "Spirits");
-			PCMainRole = new ManagedRole(Server, "PC Mains", new Color(0x7799C4));
-			XBMainRole = new ManagedRole(Server, "Xbox Mains", new Color(0x107C10));
-			PSMainRole = new ManagedRole(Server, "PlayStation Mains", new Color(0xE74C3C));
+			PCMainRole = new ManagedRole(Server, "PC Mains");
+			XBMainRole = new ManagedRole(Server, "Xbox Mains");
+			PSMainRole = new ManagedRole(Server, "PlayStation Mains");
 			PCRole = new ManagedRole(Server, "PC");
 			XBRole = new ManagedRole(Server, "Xbox");
 			PSRole = new ManagedRole(Server, "PlayStation");
-			ImagesRole = new ManagedRole(Server, "Images");
+			// ImagesRole = new ManagedRole(Server, "Images");
 			EURole = new ManagedRole(Server, "EU");
 			NAERole = new ManagedRole(Server, "NA-E");
 			NAWRole = new ManagedRole(Server, "NA-W");
@@ -230,7 +230,7 @@ namespace OriBotV3.CoreImplementation {
 			await PCRole.Initialize();
 			await XBRole.Initialize();
 			await PSRole.Initialize();
-			await ImagesRole.Initialize();
+			// await ImagesRole.Initialize();
 			await EURole.Initialize();
 			await NAERole.Initialize();
 			await NAWRole.Initialize();
@@ -264,13 +264,8 @@ namespace OriBotV3.CoreImplementation {
 		}
 
 		private async Task SendMemberWelcomeMessage(Guild guild, Member member) {
-			string welcomeMessageFmt;
-			if (Directory.Exists("V:\\")) {
-				welcomeMessageFmt = File.ReadAllText(@"V:\EtiBotCore\UNIVERSAL_WELCOME_MSG.TXT");
-			} else {
-				welcomeMessageFmt = File.ReadAllText(@"C:\EtiBotCore\UNIVERSAL_WELCOME_MSG.TXT");
-			}
-			string welcomeMessage = string.Format(welcomeMessageFmt, member.Mention, "<@!114163433980559366>");
+			string welcomeMessageFmt = File.ReadAllText(@"..\UNIVERSAL_WELCOME_MSG.TXT");
+			string welcomeMessage = string.Format(welcomeMessageFmt, member.Mention, "<@!186315471769829377>");
 			await member.TrySendDMAsync(welcomeMessage);
 		}
 
@@ -328,246 +323,336 @@ namespace OriBotV3.CoreImplementation {
 		}
 
 		private async Task OnReactionAdded(Message message, Emoji emoji, User user) {
-			if (message.Channel.ID != 622269852416999453) return;
-			if (message.ID != 685307565667647544) return;
-			if (user.IsABot || user.IsSelf) return;
-			Member member = await user.InServerAsync(Server);
-			Role mainRole = GetMemberMainRole(member);
-
-			// Region Roles
-			// EU
-			if (emoji.ID == 1046523890672865370 || emoji.Name == "Narbash_Laughing") {
-				ContextLogger.WriteLine($"Received event of Narbash reaction being added from [{user.ID}] ({user.FullName}).");
-				/*
-				if (member.Roles.Contains(MuteSystem.Muted)) {
-					ContextLogger.WriteLine("...But this person has the muted role, so it has been dropped.");
-					return;
-				}
-				if (MuteSystem.IsMutedInRegistry(member.ID)) {
-					ContextLogger.WriteLine("...But this person is muted in the registry, so it has been dropped.");
-					return;
-				}
-				*/
-				if (MuteSystem.IsMuted(member)) {
-					ContextLogger.WriteLine("...But this person is muted (either by role or by registry), so it has been dropped.");
-					return;
-				}
-
-				if (!member.Roles.Contains(EURole.Role)) {
-					member.BeginChanges(true);
-					member.Roles.Add(EURole.Role);
-					var response = await member.ApplyChanges("Clicked on Narbash, granted EU role.");
-					if (response.IsSuccessStatusCode) {
-						ContextLogger.WriteLine("...and gave them the role!");
-					} else {
-						ContextLogger.WriteWarning($"Failed to give EU role to [{user.ID}] ({user.FullName})! [HTTP {(int)response.StatusCode}] {response.StatusCode} {response.RequestMessage}");
-					}
-				} else {
-					ContextLogger.WriteLine("...But this person already has the EU role, so it has been dropped.");
-				}
-
-				// NA-E
-			} else if (emoji.ID == 1046523890672865370 || emoji.Name == "Murdock_Nice_Well_Done") {
-				ContextLogger.WriteLine($"Received event of Murdock reaction being added from [{user.ID}] ({user.FullName}).");
-				if (MuteSystem.IsMuted(member)) {
-					ContextLogger.WriteLine("...But this person is muted (either by role or by registry), so it has been dropped.");
-					return;
-				}
-
-				if (!member.Roles.Contains(NAERole.Role)) {
-					member.BeginChanges(true);
-					member.Roles.Add(NAERole.Role);
-					var response = await member.ApplyChanges("Clicked on Murdock, granted NA-E role.");
-					if (response.IsSuccessStatusCode) {
-						ContextLogger.WriteLine("...and gave them the role!");
-					} else {
-						ContextLogger.WriteLine("...but this person already has the NA-E role, so it has been dropped.");
-					}
-				}
-
-				// NA-W
-			} else if (emoji.ID == 1046523890672865370 || emoji.Name == "Howitzer_Success") {
-				ContextLogger.WriteLine($"Received event of Howitzer reaction being added from [{user.ID}] ({user.FullName}).");
-				if (MuteSystem.IsMuted(member)) {
-					ContextLogger.WriteLine("...but this person is muted (either by role or by registry), so it has been dropped.");
-					return;
-				}
-
-				if (!member.Roles.Contains(NAWRole.Role)) {
-					member.BeginChanges(true);
-					member.Roles.Add(NAWRole.Role);
-					var response = await member.ApplyChanges("Clicked on Howitzer, granted NA-W role.");
-					if (response.IsSuccessStatusCode) {
-						ContextLogger.WriteLine("...and gave them the role!");
-					} else {
-						ContextLogger.WriteLine("...but this person already has the NA-W role, so it has been dropped.");
-					}
-				}
-
-			// Asia
-			} else if (emoji.ID == 1046523890672865370 || emoji.Name == "Shinbi_Peace") {
-				ContextLogger.WriteLine($"Received event of Shinbi reaction being added from [{user.ID}] ({user.FullName}).");
-				if (MuteSystem.IsMuted(member)) {
-					ContextLogger.WriteLine("...but this person is muted (either by role or registry), so it has been dropped.");
-					return;
-                }
-
-				if (!member.Roles.Contains(ASRole.Role)) {
-					member.BeginChanges(true);
-					member.Roles.Add(ASRole.Role);
-					var response = await member.ApplyChanges("Clicked on Shinbi, granted Asia role.");
-					if (response.IsSuccessStatusCode) {
-						ContextLogger.WriteLine("...and gave them the role!");
-                    } else {
-						ContextLogger.WriteLine("...but this person already has the Asia role, so it has been dropped.");
-                    }
-                }
-
-			// Platform Roles
-			// Windows
-			} else if (emoji.Name == "Windows") {
-				if (member.Roles.Contains(MuteSystem.Muted)) return;
-				Role target = null;
-				if (mainRole != null) {
-					if (!member.Roles.Contains(PCRole.Role) && mainRole != PCMainRole.Role) {
-						target = PCRole.Role;
-					}
-				} else {
-					if (!member.Roles.Contains(PCMainRole.Role)) {
-						target = PCMainRole.Role;
-					}
-				}
-				if (target != null) {
-					member.BeginChanges(true);
-					member.Roles.Add(target);
-					await member.ApplyChanges("Clicked on Windows logo, granted applicable PC role.");
-				}
-
-			// Xbox
-			} else if (emoji.Name == "Xbox") {
-				if (member.Roles.Contains(MuteSystem.Muted)) return;
-				Role target = null;
-				if (mainRole != null) {
-					if (!member.Roles.Contains(XBRole.Role) && mainRole != XBMainRole.Role) {
-						target = XBRole.Role;
-					}
-				} else {
-					if (!member.Roles.Contains(XBMainRole.Role)) {
-						target = XBMainRole.Role;
-					}
-				}
-				if (target != null) {
-					member.BeginChanges(true);
-					member.Roles.Add(target);
-					await member.ApplyChanges("Clicked on Xbox logo, granted applicable Xbox role.");
-				}
-
-			// PlayStation
-			} else if (emoji.Name == "PlayStation") {
-				if (member.Roles.Contains(MuteSystem.Muted)) return;
-				Role target = null;
-				if (mainRole != null) {
-					if (!member.Roles.Contains(PSRole.Role) && mainRole != PSMainRole.Role) {
-						target = PSRole.Role;
-					}
-				} else {
-					if (!member.Roles.Contains(PSMainRole.Role)) {
-						target = PSMainRole.Role;
-					}
-				}
-				if (target != null) {
-					member.BeginChanges(true);
-					member.Roles.Add(target);
-					await member.ApplyChanges("Clicked on PlayStation logo, granted applicable PlayStation role.");
-				}
-			} else {
-				// no
-				await message.Reactions.RemoveReactionsOfEmojiAsync(emoji, "Message is restricted on which reactions can be added.");
-			}
-		}
-
-		private async Task OnReactionRemoved(Message message, Emoji emoji, User user) {
 			if (message.Channel.ID != 1046514345074499614) return;
 			if (message.ID != 1046523890672865370) return;
 			if (user.IsABot || user.IsSelf) return;
 			Member member = await user.InServerAsync(Server);
 			Role mainRole = GetMemberMainRole(member);
 
-			/*
-			if (emoji.ID == 685306067957055549 || emoji.Name == "Windows") {
+			// Region Roles
+			// EU
+			if (emoji.ID == 1021857506097643540 || emoji.Name == "Narbash_Laughing")
+			{
+				ContextLogger.WriteLine($"Received event of Narbash reaction being added from [{user.ID}] ({user.FullName}).");
+				if (MuteSystem.IsMuted(member))
+				{
+					ContextLogger.WriteLine("...But this person is muted (either by role or by registry), so it has been dropped.");
+					return;
+				}
+
+				if (!member.Roles.Contains(EURole.Role))
+				{
+					member.BeginChanges(true);
+					member.Roles.Add(EURole.Role);
+					var response = await member.ApplyChanges("Clicked on Narbash, granted EU role.");
+					if (response.IsSuccessStatusCode)
+					{
+						ContextLogger.WriteLine("...and gave them the role!");
+					}
+					else
+					{
+						ContextLogger.WriteWarning($"Failed to give EU role to [{user.ID}] ({user.FullName})! [HTTP {(int)response.StatusCode}] {response.StatusCode} {response.RequestMessage}");
+					}
+				}
+				else
+				{
+					ContextLogger.WriteLine("...But this person already has the EU role, so it has been dropped.");
+				}
+
+				// NA-E
+			}
+			else if (emoji.ID == 1021857503602032690 || emoji.Name == "Murdock_Nice_Well_Done")
+			{
+				ContextLogger.WriteLine($"Received event of Murdock reaction being added from [{user.ID}] ({user.FullName}).");
+				if (MuteSystem.IsMuted(member))
+				{
+					ContextLogger.WriteLine("...But this person is muted (either by role or by registry), so it has been dropped.");
+					return;
+				}
+
+				if (!member.Roles.Contains(NAERole.Role))
+				{
+					member.BeginChanges(true);
+					member.Roles.Add(NAERole.Role);
+					var response = await member.ApplyChanges("Clicked on Murdock, granted NA-E role.");
+					if (response.IsSuccessStatusCode)
+					{
+						ContextLogger.WriteLine("...and gave them the role!");
+					}
+					else
+					{
+						ContextLogger.WriteLine("...but this person already has the NA-E role, so it has been dropped.");
+					}
+				}
+
+				// NA-W
+			}
+			else if (emoji.ID == 1021857501609738250 || emoji.Name == "Howitzer_Success")
+			{
+				ContextLogger.WriteLine($"Received event of Howitzer reaction being added from [{user.ID}] ({user.FullName}).");
+				if (MuteSystem.IsMuted(member))
+				{
+					ContextLogger.WriteLine("...but this person is muted (either by role or by registry), so it has been dropped.");
+					return;
+				}
+
+				if (!member.Roles.Contains(NAWRole.Role))
+				{
+					member.BeginChanges(true);
+					member.Roles.Add(NAWRole.Role);
+					var response = await member.ApplyChanges("Clicked on Howitzer, granted NA-W role.");
+					if (response.IsSuccessStatusCode)
+					{
+						ContextLogger.WriteLine("...and gave them the role!");
+					}
+					else
+					{
+						ContextLogger.WriteLine("...but this person already has the NA-W role, so it has been dropped.");
+					}
+				}
+
+				// Asia
+			}
+			else if (emoji.ID == 1021857509918638141 || emoji.Name == "Shinbi_Peace")
+			{
+				ContextLogger.WriteLine($"Received event of Shinbi reaction being added from [{user.ID}] ({user.FullName}).");
+				if (MuteSystem.IsMuted(member))
+				{
+					ContextLogger.WriteLine("...but this person is muted (either by role or registry), so it has been dropped.");
+					return;
+				}
+
+				if (!member.Roles.Contains(ASRole.Role))
+				{
+					member.BeginChanges(true);
+					member.Roles.Add(ASRole.Role);
+					var response = await member.ApplyChanges("Clicked on Shinbi, granted Asia role.");
+					if (response.IsSuccessStatusCode)
+					{
+						ContextLogger.WriteLine("...and gave them the role!");
+					}
+					else
+					{
+						ContextLogger.WriteLine("...but this person already has the Asia role, so it has been dropped.");
+					}
+				}
+
+				// Platform Roles
+				// Windows
+			}
+			else if (emoji.Name == "Windows")
+			{
 				if (member.Roles.Contains(MuteSystem.Muted)) return;
+				Role target = null;
+				if (mainRole != null)
+				{
+					if (!member.Roles.Contains(PCRole.Role) && mainRole != PCMainRole.Role)
+					{
+						target = PCRole.Role;
+					}
+				}
+				else
+				{
+					if (!member.Roles.Contains(PCMainRole.Role))
+					{
+						target = PCMainRole.Role;
+					}
+				}
+				if (target != null)
+				{
+					member.BeginChanges(true);
+					member.Roles.Add(target);
+					await member.ApplyChanges("Clicked on Windows logo, granted applicable PC role.");
+				}
+
+				// Xbox
+			}
+			else if (emoji.Name == "Xbox")
+			{
+				if (member.Roles.Contains(MuteSystem.Muted)) return;
+				Role target = null;
+				if (mainRole != null)
+				{
+					if (!member.Roles.Contains(XBRole.Role) && mainRole != XBMainRole.Role)
+					{
+						target = XBRole.Role;
+					}
+				}
+				else
+				{
+					if (!member.Roles.Contains(XBMainRole.Role))
+					{
+						target = XBMainRole.Role;
+					}
+				}
+				if (target != null)
+				{
+					member.BeginChanges(true);
+					member.Roles.Add(target);
+					await member.ApplyChanges("Clicked on Xbox logo, granted applicable Xbox role.");
+				}
+
+				// PlayStation
+			}
+			else if (emoji.Name == "PlayStation")
+			{
+				if (member.Roles.Contains(MuteSystem.Muted)) return;
+				Role target = null;
+				if (mainRole != null)
+				{
+					if (!member.Roles.Contains(PSRole.Role) && mainRole != PSMainRole.Role)
+					{
+						target = PSRole.Role;
+					}
+				}
+				else
+				{
+					if (!member.Roles.Contains(PSMainRole.Role))
+					{
+						target = PSMainRole.Role;
+					}
+				}
+				if (target != null)
+				{
+					member.BeginChanges(true);
+					member.Roles.Add(target);
+					await member.ApplyChanges("Clicked on PlayStation logo, granted applicable PlayStation role.");
+				}
+			}
+			else
+			{
+				// no
+				await message.Reactions.RemoveReactionsOfEmojiAsync(emoji, "Message is restricted on which reactions can be added.");
+			}
+		}
+
+		private async Task OnReactionRemoved(Message message, Emoji emoji, User user)
+		{
+			if (message.Channel.ID != 1046514345074499614) return;
+			if (message.ID != 1046523890672865370) return;
+			if (user.IsABot || user.IsSelf) return;
+			Member member = await user.InServerAsync(Server);
+			Role mainRole = GetMemberMainRole(member);
+			if (emoji.ID == 1021857506097643540 || emoji.Name == "Narbash_Laughing")
+			{
+				member.BeginChanges(true);
+				member.Roles.Remove(EURole.Role);
+				await member.ApplyChanges($"Removed EU role.");
+			}
+			else if (emoji.ID == 1021857503602032690 || emoji.Name == "Murdock_Nice_Well_Done")
+			{
+				member.BeginChanges(true);
+				member.Roles.Remove(NAERole.Role);
+				await member.ApplyChanges($"Removed NA-E role.");
+			}
+			else if (emoji.ID == 1021857501609738250 || emoji.Name == "Howitzer_Success")
+			{
+				member.BeginChanges(true);
+				member.Roles.Remove(NAWRole.Role);
+				await member.ApplyChanges($"Removed NA-W role.");
+			}
+			else if (emoji.ID == 1021857509918638141 || emoji.Name == "Shinbi_Peace")
+			{
+				member.BeginChanges(true);
+				member.Roles.Remove(ASRole.Role);
+				await member.ApplyChanges($"Removed Asia role.");
+			}
+			else if (emoji.ID == 685306067957055549 || emoji.Name == "Windows")
+			{
 				// veendoze
-				if (mainRole == PCMainRole.Role) {
+				if (mainRole == PCMainRole.Role)
+				{
 					Role nextBest = GetHighestRankingPlatformRole(member, PCRole.Role);
-					if (nextBest != null) {
+					if (nextBest != null)
+					{
 						Role asMain = ToMainType(nextBest);
 						member.BeginChanges(true);
 						member.Roles.Remove(nextBest);
 						member.Roles.Remove(PCMainRole.Role);
 						member.Roles.Add(asMain);
 						await member.ApplyChanges($"Removed main PC role, swapped for next highest platform role, which was {asMain.Name}");
-					} else {
+					}
+					else
+					{
 						member.BeginChanges(true);
 						member.Roles.Remove(PCMainRole.Role);
 						await member.ApplyChanges($"Removed main PC role, and did not substitute it because they had no other roles.");
 					}
-				} else {
-					if (member.Roles.Contains(PCRole.Role)) {
+				}
+				else
+				{
+					if (member.Roles.Contains(PCRole.Role))
+					{
 						member.BeginChanges(true);
 						member.Roles.Remove(PCRole.Role);
 						await member.ApplyChanges("Removed secondary PC role.");
 					}
 				}
-			} else if (emoji.ID == 685306067932151841 || emoji.Name == "Xbox") {
-				if (member.Roles.Contains(MuteSystem.Muted)) return;
+			}
+			else if (emoji.ID == 685306067932151841 || emoji.Name == "Xbox")
+			{
 				// echsbacks
-				if (mainRole == XBMainRole.Role) {
+				if (mainRole == XBMainRole.Role)
+				{
 					Role nextBest = GetHighestRankingPlatformRole(member, XBRole.Role);
-					if (nextBest != null) {
+					if (nextBest != null)
+					{
 						Role asMain = ToMainType(nextBest);
 						member.BeginChanges(true);
 						member.Roles.Remove(nextBest);
 						member.Roles.Remove(XBMainRole.Role);
 						member.Roles.Add(asMain);
 						await member.ApplyChanges($"Removed main Xbox role, swapped for next highest platform role, which was {asMain.Name}");
-					} else {
+					}
+					else
+					{
 						member.BeginChanges(true);
 						member.Roles.Remove(XBMainRole.Role);
 						await member.ApplyChanges($"Removed main Xbox role, and did not substitute it because they had no other roles.");
 					}
-				} else {
-					if (member.Roles.Contains(XBRole.Role)) {
+				}
+				else
+				{
+					if (member.Roles.Contains(XBRole.Role))
+					{
 						member.BeginChanges(true);
 						member.Roles.Remove(XBRole.Role);
 						await member.ApplyChanges("Removed secondary Xbox role.");
 					}
 				}
-			} else if (emoji.Name == "🔴") {
-				if (member.Roles.Contains(MuteSystem.Muted)) return;
+			}
+			else if (emoji.Name == "PlayStation")
+			{
 				// red dot for switch
-				if (mainRole == PSMainRole.Role) {
+				if (mainRole == PSMainRole.Role)
+				{
 					Role nextBest = GetHighestRankingPlatformRole(member, PSRole.Role);
-					if (nextBest != null) {
+					if (nextBest != null)
+					{
 						Role asMain = ToMainType(nextBest);
 						member.BeginChanges(true);
 						member.Roles.Remove(nextBest);
 						member.Roles.Remove(PSMainRole.Role);
 						member.Roles.Add(asMain);
 						await member.ApplyChanges($"Removed main Switch role, swapped for next highest platform role, which was {asMain.Name}");
-					} else {
+					}
+					else
+					{
 						member.BeginChanges(true);
 						member.Roles.Remove(PSMainRole.Role);
 						await member.ApplyChanges($"Removed main Switch role, and did not substitute it because they had no other roles.");
 					}
-				} else {
-					if (member.Roles.Contains(PSRole.Role)) {
+				}
+				else
+				{
+					if (member.Roles.Contains(PSRole.Role))
+					{
 						member.BeginChanges(true);
 						member.Roles.Remove(PSRole.Role);
 						await member.ApplyChanges("Removed secondary Switch role.");
 					}
 				}
 			}
-			*/
 		}
 
 		#endregion
@@ -912,7 +997,7 @@ namespace OriBotV3.CoreImplementation {
 		private async Task OnMessageCreated(Message message, bool? pinned) {
 			if (message.Author.IsSelf) return;
 			if (message.Channel is TextChannel textChannel) {
-				if (textChannel.ID == 872548812525297695 && !message.AuthorMember.HasPermission(EtiBotCore.Payloads.Data.Permissions.Administrator)) {
+				if (textChannel.ID == 1047604994104369213 && !message.AuthorMember.Roles.Contains(420233409789689876)) {
 					// Tickets channel
 					await Task.Delay(100);
 					await message.DeleteAsync("Unauthorized message.");
@@ -936,11 +1021,11 @@ namespace OriBotV3.CoreImplementation {
 
 		private async Task OnThreadMembersUpdated(Guild server, Thread thread, Member[] added, Snowflake[] removed) {
 			if (server != Server) return;
-			if (thread.ParentID != 872548812525297695) return;
+			if (thread.ParentID != 1047604994104369213) return;
 
 			foreach (Member mbr in added) {
 				if (thread.Name.StartsWith(mbr.ID.ToString())) continue; // This thread is theirs
-				if (!mbr.Roles.Contains(603306540438388756)) {
+				if (!mbr.Roles.Contains(420233409789689876)) {
 					// Not a moderator
 					await thread.TryRemoveMemberFromThread(mbr);
 				}

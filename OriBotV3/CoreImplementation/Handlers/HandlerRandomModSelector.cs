@@ -29,11 +29,11 @@ namespace OriBotV3.CoreImplementation.Handlers {
 
 		private Task OnPresenceUpdated(Presence _, Presence np) {
 			if (np != null && (np.GuildID != Context.Server.ID)) return Task.CompletedTask; 
-			if (!(Context is BotContextOriTheGame oriContext) || !(Context is BotContextPredecessor predContext)) return Task.CompletedTask;
+			if (!(Context is BotContextPredecessor predContext)) return Task.CompletedTask;
 
-			if (Context == oriContext) {
+			if (Context == predContext) {
 				// Get every mod. Start by trimming out offline / dnd mods.
-				IEnumerable<Member> mods = oriContext.Server.FindMembersWithRole(oriContext.Server.GetRole(603306540438388756));
+				IEnumerable<Member> mods = predContext.Server.FindMembersWithRole(predContext.Server.GetRole(420233409789689876));
 				mods = mods.Where(mod =>
 				{
 					return (mod.Presence.Status == StatusType.Online || mod.Presence.Status == StatusType.Idle) && !mod.Roles.Contains(836933631950716938);
@@ -105,7 +105,7 @@ namespace OriBotV3.CoreImplementation.Handlers {
 
 			if (message.Content.Contains("<@&" + AnyModRole.Role!.ID + ">")) {
 				if (AvailableMods.Count() == 0) {
-					await message.ReplyAsync("No mods are readily available! I have to ping the whole role so that whoever is here can get to you. It's no problem! <@&603306540438388756>");
+					await message.ReplyAsync("No mods are readily available! I have to ping the whole role so that whoever is here can get to you. It's no problem! <@&420233409789689876>");
 				} else {
 					Member mod = AvailableMods.Random();
 					await message.ReplyAsync($"I've selected {mod.Mention} out of a random selection of the available mods. They should be here to lend a hand soon. If they don't show up after a few minutes, you might want to ping {AnyModRole.Name} again.");

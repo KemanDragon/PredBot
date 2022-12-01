@@ -51,6 +51,17 @@ namespace OriBotV3.CoreImplementation.Handlers {
 
 			"whore",
 			"slut",
+
+			"tranny",
+			"trannies",
+			"trannles",
+
+			"49 percenter",
+			"49%er",
+
+			"herm",
+			"shemale",
+			"futa",
 		};
 
 		/// <summary>

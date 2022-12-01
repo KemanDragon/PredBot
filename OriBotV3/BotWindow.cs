@@ -31,22 +31,10 @@ namespace OriBotV3 {
 		/// An array of potential activities, sorted loosely by type.
 		/// </summary>
 		public static readonly Activity[] Activities = new Activity[] {
-			Activity.CreateActivityForBot("the leaves fly by", ActivityType.Watching),
-			Activity.CreateActivityForBot("the waves in the water", ActivityType.Watching),
-			Activity.CreateActivityForBot("the forest", ActivityType.Watching),
+			Activity.CreateActivityForBot("the streets of Omeda", ActivityType.Watching),
 
-			Activity.CreateActivityForBot("Naru's stories", ActivityType.Listening),
-			Activity.CreateActivityForBot("the wind and the leaves", ActivityType.Listening),
-			Activity.CreateActivityForBot("The Spirit Tree", ActivityType.Listening),
-			Activity.CreateActivityForBot("the birds by the lake", ActivityType.Listening),
-
-			Activity.CreateActivityForBot("with Naru", ActivityType.Playing),
-			Activity.CreateActivityForBot("with Gumo", ActivityType.Playing),
-			Activity.CreateActivityForBot("with Ku", ActivityType.Playing),
-			Activity.CreateActivityForBot("with friends", ActivityType.Playing),
-
-			Activity.CreateActivityForBot("the Spirit Trials", ActivityType.Competing),
-			Activity.CreateActivityForBot("Combat", ActivityType.Competing),
+			Activity.CreateActivityForBot("the long arm of the law", ActivityType.Aiming),
+			Activity.CreateActivityForBot("the only shot I need", ActivityType.Aiming),
 		};
 
 		/// <summary>The activity used for when developer mode is active.</summary>
@@ -56,7 +44,7 @@ namespace OriBotV3 {
 		private static readonly Activity DebugModeActivity = Activity.CreateActivityForBot("my step -- Debug Mode is active!", ActivityType.Watching);
 
 		/// <summary>The activity for March 11.</summary>
-		private static readonly Activity BirthdayActivity = Activity.CreateActivityForBot("with friends - I'm 7 years old today!", ActivityType.Playing);
+		/// private static readonly Activity BirthdayActivity = Activity.CreateActivityForBot("with friends - I'm 7 years old today!", ActivityType.Playing);
 
 		public SoundPlayer SoundPlayer { get; private set; }
 
@@ -88,7 +76,7 @@ namespace OriBotV3 {
 			IsDebug = Environment.GetCommandLineArgs().Contains("debug") || IsEnvironmentDebug;
 			ProgramLogLevel = IsDebug ? LogLevel.Debug : LogLevel.Info;
 
-			Personality.Current = new Personality(@"Ori.personality");
+			Personality.Current = new Personality(@"Default.personality");
 
 			DataPersistence.DoStaticInit();
 
@@ -164,13 +152,8 @@ namespace OriBotV3 {
 				DiscordClient.Current.SetActivity(DeveloperModeActivity, StatusType.DoNotDisturb);
 			} else if (IsDebug) {
 				DiscordClient.Current.SetActivity(DebugModeActivity, StatusType.Idle);
-			} else {
-				DateTime now = DateTime.Now;
-				if (now.Day == 11 && now.Month == 3) {
-					DiscordClient.Current.SetActivity(BirthdayActivity, StatusType.Online);
-				} else {
-					DiscordClient.Current.SetActivity(Activities.Random(), StatusType.Online);
-				}
+			} else {	
+				DiscordClient.Current.SetActivity(Activities.Random(), StatusType.Online);
 			}
 		}
 
@@ -259,5 +242,10 @@ namespace OriBotV3 {
 				SystemLog.WriteLine("§fNow writing §dTRACE §flevel logs (and above)");
 			}
 		}
-	}
+
+        private void BotWindow_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
